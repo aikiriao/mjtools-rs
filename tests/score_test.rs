@@ -75,15 +75,15 @@ fn construct_meld_from_char(min_ch: char, ty: TestMeld) -> Meld {
 
 // テストケース実行
 fn do_testcase(case: &ScoreTestCase) {
-    let construct_tiles_from_str = |s: &str| -> Vec<Tile> {
-        TileId::from_str(s)
+    let construct_tiles_from_tilestr = |s: &str| -> Vec<Tile> {
+        TileId::from_tilestr(s)
             .unwrap()
             .iter()
             .map(|t| Tile { id: *t, aka: false })
             .collect()
     };
     // 手牌の構成
-    let hand: Vec<Tile> = construct_tiles_from_str(case.hand_str);
+    let hand: Vec<Tile> = construct_tiles_from_tilestr(case.hand_str);
     // 副露牌の構成
     let meld: Vec<Meld> = case
         .meld
@@ -92,8 +92,8 @@ fn do_testcase(case: &ScoreTestCase) {
         .collect();
     // ドラ牌の構成
     let dora = Dora {
-        omote: construct_tiles_from_str(case.omotedora_str),
-        ura: construct_tiles_from_str(case.uradora_str),
+        omote: construct_tiles_from_tilestr(case.omotedora_str),
+        ura: construct_tiles_from_tilestr(case.uradora_str),
     };
     let info = AgariInformation {
         wining_tile: Tile {

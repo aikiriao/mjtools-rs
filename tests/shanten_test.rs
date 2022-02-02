@@ -103,23 +103,23 @@ fn test_effective_tiles() {
 
     for case in normal_tests {
         assert_eq!(
-            listup_normal_effective_tiles(TileId::from_str(case.0).unwrap().as_slice()).unwrap(),
-            TileId::from_str(case.1).unwrap()
+            listup_normal_effective_tiles(TileId::from_tilestr(case.0).unwrap().as_slice()).unwrap(),
+            TileId::from_tilestr(case.1).unwrap()
         );
     }
 
     for case in chitoitsu_tests {
         assert_eq!(
-            listup_chitoitsu_effective_tiles(TileId::from_str(case.0).unwrap().as_slice()).unwrap(),
-            TileId::from_str(case.1).unwrap()
+            listup_chitoitsu_effective_tiles(TileId::from_tilestr(case.0).unwrap().as_slice()).unwrap(),
+            TileId::from_tilestr(case.1).unwrap()
         );
     }
 
     for case in kokushimusou_tests {
         assert_eq!(
-            listup_kokushimusou_effective_tiles(TileId::from_str(case.0).unwrap().as_slice())
+            listup_kokushimusou_effective_tiles(TileId::from_tilestr(case.0).unwrap().as_slice())
                 .unwrap(),
-            TileId::from_str(case.1).unwrap()
+            TileId::from_tilestr(case.1).unwrap()
         );
     }
 }

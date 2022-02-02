@@ -292,8 +292,8 @@ impl TileId {
         Ok(ret)
     }
 
-    /// 文字列を識別子に変換
-    pub fn from_str(s: &str) -> Result<Vec<Self>, Error> {
+    /// 牌文字列を識別子に変換
+    pub fn from_tilestr(s: &str) -> Result<Vec<Self>, Error> {
         let mut tiles = vec![];
         for c in s.chars() {
             tiles.push(TileId::from_char(c)?);

@@ -1,9 +1,9 @@
 use mjtools::types::*;
 
 #[test]
-fn test_from_str() {
+fn test_from_tilestr() {
     assert_eq!(
-        TileId::from_str("🀇🀈🀉🀊🀋🀌🀍🀎🀏").unwrap(),
+        TileId::from_tilestr("🀇🀈🀉🀊🀋🀌🀍🀎🀏").unwrap(),
         [
             TileId::Id1man,
             TileId::Id2man,
@@ -17,7 +17,7 @@ fn test_from_str() {
         ]
     );
     assert_eq!(
-        TileId::from_str("🀐🀑🀒🀓🀔🀕🀖🀗🀘").unwrap(),
+        TileId::from_tilestr("🀐🀑🀒🀓🀔🀕🀖🀗🀘").unwrap(),
         [
             TileId::Id1sou,
             TileId::Id2sou,
@@ -31,7 +31,7 @@ fn test_from_str() {
         ]
     );
     assert_eq!(
-        TileId::from_str("🀙🀚🀛🀜🀝🀞🀟🀠🀡").unwrap(),
+        TileId::from_tilestr("🀙🀚🀛🀜🀝🀞🀟🀠🀡").unwrap(),
         [
             TileId::Id1pin,
             TileId::Id2pin,
@@ -45,11 +45,11 @@ fn test_from_str() {
         ]
     );
     assert_eq!(
-        TileId::from_str("🀀🀁🀂🀃").unwrap(),
+        TileId::from_tilestr("🀀🀁🀂🀃").unwrap(),
         [TileId::IdTon, TileId::IdNan, TileId::IdSha, TileId::IdPee]
     );
     assert_eq!(
-        TileId::from_str("🀆🀅🀄").unwrap(),
+        TileId::from_tilestr("🀆🀅🀄").unwrap(),
         [TileId::IdHaku, TileId::IdHatu, TileId::IdChun]
     );
 }
