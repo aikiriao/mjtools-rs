@@ -1,6 +1,6 @@
-pub mod types;
 pub mod score;
 pub mod shanten;
+pub mod types;
 
 #[macro_use]
 extern crate num_derive;
