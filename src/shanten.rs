@@ -15,7 +15,7 @@ pub fn calculate_normal_shanten(tiles: &[TileId]) -> i32 {
         .iter()
         .filter(|(_, c)| **c >= 2)
         .collect::<HashMap<_, _>>();
-    for (t, _) in &mult_counts {
+    for t in mult_counts.keys() {
         let mut headless = counts.clone();
         headless[t] -= 2;
         let shanten = calculate_normal_shanten_use_table(&headless) - 1;
@@ -51,10 +51,14 @@ fn calculate_normal_shanten_use_table(counts: &TileCount) -> i32 {
     // 字牌は刻子と対子だけ数えればOK
     let ji_count: HashMap<_, _> = counts.iter().filter(|(t, _)| t.is_jihai()).collect();
     for c in ji_count.values() {
-        if **c == 2 {
-            num_tatsu += 1;
-        } else if **c > 2 {
-            num_mentsu += 1;
+        match **c {
+            2 => {
+                num_tatsu += 1;
+            }
+            cnt if cnt > 2 => {
+                num_mentsu += 1;
+            }
+            _ => {}
         }
     }
 

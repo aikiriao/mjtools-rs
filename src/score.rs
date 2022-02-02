@@ -416,10 +416,10 @@ pub fn calculate_score(info: &AgariInformation) -> Result<Score, Error> {
 // 基本点計算
 fn calculate_basic_point(han: i32, fu: i32) -> i32 {
     // 満貫切り上げ
-    if RULE_CONFIG.read().unwrap().mangan_roundup {
-        if (han == 4 && fu == 30) || (han == 3 && fu == 60) {
-            return 2000;
-        }
+    if RULE_CONFIG.read().unwrap().mangan_roundup
+        && ((han == 4 && fu == 30) || (han == 3 && fu == 60))
+    {
+        return 2000;
     }
 
     match han {
@@ -535,9 +535,9 @@ fn calculate_kokushimusou_score(info: &AgariInformation, counts: &TileCount) -> 
     }
 
     Score {
-        han: han,
+        han,
         fu: 0,
-        yaku: yaku,
+        yaku,
         point: calculate_point(info, han, 0),
     }
 }
@@ -563,9 +563,9 @@ fn calculate_chitoitsu_score(info: &AgariInformation, counts: &TileCount) -> Sco
     // 役満成立時は終わり
     if han >= HAN_YAKUMAN {
         return Score {
-            han: han,
+            han,
             fu: 0,
-            yaku: yaku,
+            yaku,
             point: calculate_point(info, han, 0),
         };
     }
@@ -629,12 +629,12 @@ fn calculate_chitoitsu_score(info: &AgariInformation, counts: &TileCount) -> Sco
         han += 1;
     }
 
-    return Score {
-        han: han,
-        fu: fu,
-        yaku: yaku,
+    Score {
+        han,
+        fu,
+        yaku,
         point: calculate_point(info, han, fu),
-    };
+    }
 }
 
 // 国士無双以外の翻/複合役計算
@@ -714,9 +714,9 @@ fn calculate_yakuman_score(info: &AgariInformation, counts: &TileCount) -> Optio
     // 役満成立か？
     if han >= HAN_YAKUMAN {
         return Some(Score {
-            han: han,
+            han,
             fu: 0,
-            yaku: yaku,
+            yaku,
             point: calculate_point(info, han, 0),
         });
     }
@@ -1157,11 +1157,8 @@ fn calculate_fu_from_dividedhand(info: &AgariInformation, div_hand: &DividedHand
 fn count_num_peko(div_hand: &DividedHand) -> i32 {
     let mut syuntsu_count = TileCount::new();
     for m in &div_hand.mentsu {
-        match m {
-            Mentsu::Syuntsu { min } => {
-                syuntsu_count[&min] += 1;
-            }
-            _ => {}
+        if let Mentsu::Syuntsu { min } = m {
+            syuntsu_count[min] += 1;
         }
     }
 
@@ -1176,7 +1173,7 @@ fn count_num_peko(div_hand: &DividedHand) -> i32 {
 // 平和が成立しているか？
 fn is_pinfu(info: &AgariInformation, hand: &DividedHand) -> bool {
     // 鳴いている（暗槓も不可）
-    if info.hand.melds.len() > 0 {
+    if !info.hand.melds.is_empty() {
         return false;
     }
 
@@ -1371,7 +1368,7 @@ fn is_chanta(info: &AgariInformation, hand: &DividedHand) -> bool {
     }
 
     // 順子の並びは共通関数で判定
-    return jihai && is_chanta_common(info, hand);
+    jihai && is_chanta_common(info, hand)
 }
 
 // 対々和が成立しているか？
@@ -1468,7 +1465,7 @@ fn is_jyunchanta(info: &AgariInformation, hand: &DividedHand) -> bool {
 // 二盃口が成立しているか？
 fn is_ryanpeko(info: &AgariInformation, hand: &DividedHand) -> bool {
     // 鳴いている（暗槓も不可）
-    if info.hand.melds.len() > 0 {
+    if !info.hand.melds.is_empty() {
         return false;
     }
 
@@ -1618,7 +1615,7 @@ fn is_kokushimusou13(info: &AgariInformation, counts: &TileCount) -> bool {
     ];
 
     // 鳴いている（暗槓も不可）
-    if info.hand.melds.len() > 0 {
+    if !info.hand.melds.is_empty() {
         return false;
     }
 
@@ -1665,8 +1662,8 @@ fn is_churenpouton_common(counts: &TileCount) -> bool {
 
 // 九蓮宝燈が成立しているか？
 fn is_churenpouton(info: &AgariInformation, counts: &TileCount) -> bool {
-    // 鳴いている
-    if info.hand.melds.len() > 0 {
+    // 鳴いている（暗槓も不可）
+    if !info.hand.melds.is_empty() {
         return false;
     }
 
@@ -1675,10 +1672,8 @@ fn is_churenpouton(info: &AgariInformation, counts: &TileCount) -> bool {
         if counts[&info.wining_tile.id] == 2 {
             return false;
         }
-    } else if info.wining_tile.id.is_routou() {
-        if counts[&info.wining_tile.id] == 4 {
-            return false;
-        }
+    } else if info.wining_tile.id.is_routou() && counts[&info.wining_tile.id] == 4 {
+        return false;
     }
 
     is_churenpouton_common(counts)
@@ -1686,8 +1681,8 @@ fn is_churenpouton(info: &AgariInformation, counts: &TileCount) -> bool {
 
 // 九蓮宝燈9面街待ちが成立しているか？
 fn is_churenpouton9(info: &AgariInformation, counts: &TileCount) -> bool {
-    // 鳴いている
-    if info.hand.melds.len() > 0 {
+    // 鳴いている（暗槓も不可）
+    if !info.hand.melds.is_empty() {
         return false;
     }
 
@@ -1724,7 +1719,7 @@ fn is_suanko(info: &AgariInformation, counts: &TileCount) -> bool {
         }
     }
 
-    return (num_anko == 4) && (num_toitsu == 1);
+    (num_anko == 4) && (num_toitsu == 1)
 }
 
 // 四暗刻単騎が成立しているか？
