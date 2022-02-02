@@ -103,14 +103,16 @@ fn test_effective_tiles() {
 
     for case in normal_tests {
         assert_eq!(
-            listup_normal_effective_tiles(TileId::from_tilestr(case.0).unwrap().as_slice()).unwrap(),
+            listup_normal_effective_tiles(TileId::from_tilestr(case.0).unwrap().as_slice())
+                .unwrap(),
             TileId::from_tilestr(case.1).unwrap()
         );
     }
 
     for case in chitoitsu_tests {
         assert_eq!(
-            listup_chitoitsu_effective_tiles(TileId::from_tilestr(case.0).unwrap().as_slice()).unwrap(),
+            listup_chitoitsu_effective_tiles(TileId::from_tilestr(case.0).unwrap().as_slice())
+                .unwrap(),
             TileId::from_tilestr(case.1).unwrap()
         );
     }
