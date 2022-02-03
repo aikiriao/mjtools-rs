@@ -116,17 +116,16 @@ fn listup_effective_tiles_common(
     tiles: &[TileId],
     candidate_tiles: &[TileId],
     shanten_calculator: &dyn Fn(&[TileId]) -> i32,
-) -> Result<Vec<TileId>, Error> {
+) -> Result<HashSet<TileId>, Error> {
     let current_shanten = shanten_calculator(tiles);
-    let mut effective_tiles = vec![];
+    let mut effective_tiles: HashSet<TileId> = HashSet::new();
     for ct in candidate_tiles {
         let mut appended = tiles.to_vec();
         appended.push(*ct);
         if current_shanten > shanten_calculator(appended.as_slice()) {
-            effective_tiles.push(*ct);
+            effective_tiles.insert(*ct);
         }
     }
-    effective_tiles.sort_by(|a, b| a.partial_cmp(b).unwrap());
     Ok(effective_tiles)
 }
 
@@ -242,7 +241,7 @@ fn listup_kokushimusou_candidate_effective_tiles(
 }
 
 /// 通常手の有効牌（向聴数を下げる牌）を列挙
-pub fn listup_normal_effective_tiles(tiles: &[TileId]) -> Result<Vec<TileId>, Error> {
+pub fn listup_normal_effective_tiles(tiles: &[TileId]) -> Result<HashSet<TileId>, Error> {
     let candidate_tiles = listup_normal_candidate_effective_tiles(tiles)?;
     listup_effective_tiles_common(
         tiles,
@@ -252,7 +251,7 @@ pub fn listup_normal_effective_tiles(tiles: &[TileId]) -> Result<Vec<TileId>, Er
 }
 
 /// 七対子手の有効牌（向聴数を下げる牌）を列挙
-pub fn listup_chitoitsu_effective_tiles(tiles: &[TileId]) -> Result<Vec<TileId>, Error> {
+pub fn listup_chitoitsu_effective_tiles(tiles: &[TileId]) -> Result<HashSet<TileId>, Error> {
     let candidate_tiles = listup_chitoitsu_candidate_effective_tiles(tiles)?;
     listup_effective_tiles_common(
         tiles,
@@ -262,7 +261,7 @@ pub fn listup_chitoitsu_effective_tiles(tiles: &[TileId]) -> Result<Vec<TileId>,
 }
 
 /// 国士無双手の有効牌（向聴数を下げる牌）を列挙
-pub fn listup_kokushimusou_effective_tiles(tiles: &[TileId]) -> Result<Vec<TileId>, Error> {
+pub fn listup_kokushimusou_effective_tiles(tiles: &[TileId]) -> Result<HashSet<TileId>, Error> {
     let candidate_tiles = listup_kokushimusou_candidate_effective_tiles(tiles)?;
     listup_effective_tiles_common(
         tiles,
@@ -272,7 +271,7 @@ pub fn listup_kokushimusou_effective_tiles(tiles: &[TileId]) -> Result<Vec<TileI
 }
 
 /// 有効牌（向聴数を下げる牌）を列挙
-pub fn listup_effective_tiles(tiles: &[TileId]) -> Result<Vec<TileId>, Error> {
+pub fn listup_effective_tiles(tiles: &[TileId]) -> Result<HashSet<TileId>, Error> {
     let normal_candidates = listup_normal_candidate_effective_tiles(tiles)?;
     let chitoitsu_candidates = listup_chitoitsu_candidate_effective_tiles(tiles)?;
     let kokushimusou_candidates = listup_kokushimusou_candidate_effective_tiles(tiles)?;

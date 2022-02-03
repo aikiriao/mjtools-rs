@@ -1,6 +1,6 @@
 use mjtools::shanten::*;
 use mjtools::types::*;
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 
@@ -105,7 +105,7 @@ fn test_effective_tiles() {
         assert_eq!(
             listup_normal_effective_tiles(TileId::from_tilestr(case.0).unwrap().as_slice())
                 .unwrap(),
-            TileId::from_tilestr(case.1).unwrap()
+            HashSet::from_iter(TileId::from_tilestr(case.1).unwrap().into_iter())
         );
     }
 
@@ -113,7 +113,7 @@ fn test_effective_tiles() {
         assert_eq!(
             listup_chitoitsu_effective_tiles(TileId::from_tilestr(case.0).unwrap().as_slice())
                 .unwrap(),
-            TileId::from_tilestr(case.1).unwrap()
+            HashSet::from_iter(TileId::from_tilestr(case.1).unwrap().into_iter())
         );
     }
 
@@ -121,7 +121,7 @@ fn test_effective_tiles() {
         assert_eq!(
             listup_kokushimusou_effective_tiles(TileId::from_tilestr(case.0).unwrap().as_slice())
                 .unwrap(),
-            TileId::from_tilestr(case.1).unwrap()
+            HashSet::from_iter(TileId::from_tilestr(case.1).unwrap().into_iter())
         );
     }
 }
