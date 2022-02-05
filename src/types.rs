@@ -91,7 +91,7 @@ pub enum TileId {
 }
 
 /// 牌
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct Tile {
     /// 牌識別子
     pub id: TileId,
@@ -297,6 +297,80 @@ impl TileId {
         let mut tiles = vec![];
         for c in s.chars() {
             tiles.push(TileId::from_char(c)?);
+        }
+        Ok(tiles)
+    }
+}
+
+impl Tile {
+    /// mjscoreの牌表示から牌に変換
+    pub fn from_mjscorestr(s: &str) -> Result<Vec<Self>, Error> {
+        let mut tiles = vec![];
+        let mut chars_iter = s.chars();
+        while let Some(c) = chars_iter.next() {
+            match c {
+                '1'..='9' => {
+                    let ty = chars_iter.next().unwrap();
+                    let offset = c.to_digit(10).unwrap() as i32 - 1;
+                    let id = match ty.to_ascii_lowercase() {
+                        'm' => TileId::Id1man.nth(offset),
+                        'p' => TileId::Id1pin.nth(offset),
+                        's' => TileId::Id1sou.nth(offset),
+                        _ => {
+                            return Err(Error::from("invalid mjscore hai char"));
+                        }
+                    };
+                    tiles.push(Tile {
+                        id,
+                        aka: ty.is_uppercase(),
+                    });
+                }
+                '東' => {
+                    tiles.push(Tile {
+                        id: TileId::IdTon,
+                        aka: false,
+                    });
+                }
+                '南' => {
+                    tiles.push(Tile {
+                        id: TileId::IdNan,
+                        aka: false,
+                    });
+                }
+                '西' => {
+                    tiles.push(Tile {
+                        id: TileId::IdSha,
+                        aka: false,
+                    });
+                }
+                '北' => {
+                    tiles.push(Tile {
+                        id: TileId::IdPee,
+                        aka: false,
+                    });
+                }
+                '白' => {
+                    tiles.push(Tile {
+                        id: TileId::IdHaku,
+                        aka: false,
+                    });
+                }
+                '発' => {
+                    tiles.push(Tile {
+                        id: TileId::IdHatu,
+                        aka: false,
+                    });
+                }
+                '中' => {
+                    tiles.push(Tile {
+                        id: TileId::IdChun,
+                        aka: false,
+                    });
+                }
+                _ => {
+                    return Err(Error::from("invalid mjscore hai char"));
+                }
+            }
         }
         Ok(tiles)
     }
