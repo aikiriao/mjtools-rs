@@ -274,6 +274,61 @@ lazy_static! {
     ]);
 }
 
+impl Yaku {
+    /// 日本語名に変換
+    pub fn to_jpstr(&self) -> &str {
+        match self {
+            Yaku::Riichi => "立直",
+            Yaku::Doubleriichi => "ダブル立直",
+            Yaku::Ippatsu => "一発",
+            Yaku::Tsumo => "自摸",
+            Yaku::Tanyao => " 断么九",
+            Yaku::Pinfu => "平和",
+            Yaku::Ipeko => "一盃口",
+            Yaku::Bakaze => "場風",
+            Yaku::Jikaze => "自風",
+            Yaku::Haku => "役牌：白",
+            Yaku::Hatu => "役牌：發",
+            Yaku::Chun => "役牌：中",
+            Yaku::Rinshan => "嶺上開花",
+            Yaku::Chankan => "槍槓",
+            Yaku::Haiteitsumo => "海底撈月",
+            Yaku::Houteiron => "河底撈魚",
+            Yaku::Sansyokudoujyun => "三色同順",
+            Yaku::Ikkitsukan => "一気通貫",
+            Yaku::Chanta => "混全帯么九",
+            Yaku::Chitoitsu => "七対子",
+            Yaku::Toitoiho => "対々和",
+            Yaku::Sananko => "三暗刻",
+            Yaku::Honrouto => "混老頭",
+            Yaku::Sansyokudoukoku => "三色同刻",
+            Yaku::Sankantsu => "三槓子",
+            Yaku::Syosangen => "小三元",
+            Yaku::Honitsu => "混一色",
+            Yaku::Jyunchanta => "純全帯么九",
+            Yaku::Ryanpeko => "二盃口",
+            Yaku::Chinitsu => "清一色",
+            Yaku::Tenho => "天和",
+            Yaku::Chiho => "地和",
+            Yaku::Kokushimusou => "国士無双",
+            Yaku::Kokushimusou13 => "国士無双13面待ち",
+            Yaku::Churenpouton => "九蓮宝燈",
+            Yaku::Churenpouton9 => "九蓮宝燈9面待ち",
+            Yaku::Suanko => "四暗刻",
+            Yaku::Suankotanki => "四暗刻単騎待ち",
+            Yaku::Daisushi => "大四喜",
+            Yaku::Syosushi => "小四喜",
+            Yaku::Daisangen => "大三元",
+            Yaku::Tsuiso => "字一色",
+            Yaku::Chinroto => "清老頭",
+            Yaku::Ryuiso => "緑一色",
+            Yaku::Sukantsu => "四槓子",
+            Yaku::Dora => "ドラ",
+            Yaku::Nagashimangan => "流し満貫",
+        }
+    }
+}
+
 // nの倍数へ切り上げ
 fn roundup(val: i32, n: i32) -> i32 {
     ((val + n - 1) / n) * n

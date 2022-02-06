@@ -374,6 +374,52 @@ impl Tile {
         }
         Ok(tiles)
     }
+
+    /// mjscoreの牌表示に変換
+    pub fn to_mjscorestr(&self) -> String {
+        let idstr = match self.id {
+            TileId::Id1man => "1m",
+            TileId::Id2man => "2m",
+            TileId::Id3man => "3m",
+            TileId::Id4man => "4m",
+            TileId::Id5man => "5m",
+            TileId::Id6man => "6m",
+            TileId::Id7man => "7m",
+            TileId::Id8man => "8m",
+            TileId::Id9man => "9m",
+            TileId::Id1pin => "1p",
+            TileId::Id2pin => "2p",
+            TileId::Id3pin => "3p",
+            TileId::Id4pin => "4p",
+            TileId::Id5pin => "5p",
+            TileId::Id6pin => "6p",
+            TileId::Id7pin => "7p",
+            TileId::Id8pin => "8p",
+            TileId::Id9pin => "9p",
+            TileId::Id1sou => "1s",
+            TileId::Id2sou => "2s",
+            TileId::Id3sou => "3s",
+            TileId::Id4sou => "4s",
+            TileId::Id5sou => "5s",
+            TileId::Id6sou => "6s",
+            TileId::Id7sou => "7s",
+            TileId::Id8sou => "8s",
+            TileId::Id9sou => "9s",
+            TileId::IdTon => "東",
+            TileId::IdNan => "南",
+            TileId::IdSha => "西",
+            TileId::IdPee => "北",
+            TileId::IdHaku => "白",
+            TileId::IdHatu => "発",
+            TileId::IdChun => "中",
+        };
+        if self.aka {
+            let mut idary: Vec<char> = idstr.chars().collect();
+            idary[1] = idary[1].to_ascii_uppercase();
+            return idary.into_iter().collect::<String>();
+        }
+        idstr.to_string()
+    }
 }
 
 /// 牌の出現回数を計算
