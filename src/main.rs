@@ -12,21 +12,21 @@ fn main() {
         .subcommand(
             App::new("shanten")
                 .about("Calculate shanten and listup effective tiles")
-                .arg(Arg::new("hand").help("Specify hand tiles").required(true)),
+                .arg(Arg::new("hand").help("Specify hand tiles formatted as [([1-9]m)([1-9]p)([1-9]s)東南西北白発中]+").required(true)),
         )
         .subcommand(
             App::new("score")
                 .about("Calculate score")
                 .setting(AppSettings::DeriveDisplayOrder)
-                .arg(Arg::new("hand").help("specify hand tiles").required(true))
+                .arg(Arg::new("hand").help("specify hand tiles formatted as [([1-9]m)([1-9]p)([1-9]s)東南西北白発中]+").required(true))
                 .arg(
                     Arg::new("wining tile")
-                        .help("Specify wining(tsumo/ron) tile")
+                        .help("Specify wining (tsumo/ron) tile")
                         .required(true),
                 )
                 .arg(
                     Arg::new("player wind")
-                        .help("Specify player wind(ton or nan or sha or pee)")
+                        .help("Specify player wind (ton or nan or sha or pee)")
                         .long("player")
                         .short('p')
                         .takes_value(true)
@@ -34,7 +34,7 @@ fn main() {
                 )
                 .arg(
                     Arg::new("round wind")
-                        .help("Specify round wind(ton or nan or sha or pee)")
+                        .help("Specify round wind (ton or nan or sha or pee)")
                         .long("round")
                         .short('r')
                         .takes_value(true)
