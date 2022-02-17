@@ -1,5 +1,5 @@
 extern crate clap;
-use clap::{Command, AppSettings, Arg};
+use clap::{AppSettings, Arg, Command};
 use mjtools::score::*;
 use mjtools::shanten::*;
 use mjtools::types::*;
