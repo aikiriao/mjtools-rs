@@ -1,21 +1,21 @@
 extern crate clap;
-use clap::{App, AppSettings, Arg};
+use clap::{Command, AppSettings, Arg};
 use mjtools::score::*;
 use mjtools::shanten::*;
 use mjtools::types::*;
 use std::collections::HashMap;
 
 fn main() {
-    let app = App::new("mjtools")
+    let command = Command::new("mjtools")
         .version(env!("CARGO_PKG_VERSION"))
         .about("Mahjong analyzing tools")
         .subcommand(
-            App::new("shanten")
+            Command::new("shanten")
                 .about("Calculate shanten and listup effective tiles")
                 .arg(Arg::new("hand").help("Specify hand tiles").required(true)),
         )
         .subcommand(
-            App::new("score")
+            Command::new("score")
                 .about("Calculate score")
                 .setting(AppSettings::DeriveDisplayOrder)
                 .arg(Arg::new("hand").help("specify hand tiles").required(true))
@@ -126,7 +126,7 @@ fn main() {
         );
 
     // 引数を解析
-    let matches = app.get_matches();
+    let matches = command.get_matches();
 
     // 向聴数計算
     if let Some(matches) = matches.subcommand_matches("shanten") {
